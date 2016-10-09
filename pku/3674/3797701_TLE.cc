@@ -1,0 +1,101 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+int n;
+struct gao
+{
+	int x,y,n;
+}a[301],b[25];
+
+bool f[301];
+int ff[26];
+int maxx;
+bool com1(gao a,gao b)
+{
+	return a.x>b.x;
+}
+bool com2(gao a,gao b)
+{
+	return a.y>b.y;
+}
+
+void solve(int t)
+{
+	int i,tt;
+	if(t==6)
+	{
+		tt=b[ff[0]].x*10;
+		for(i=1;i<6;i++)
+			tt+=b[ff[i]].x*(b[ff[i-1]].y+10);
+		if(tt>maxx)
+			maxx=tt;
+		return;
+	}
+	for(i=0;i<n;i++)
+		if(!f[i])
+		{
+			f[i]=true;
+			ff[t]=b[i].n;
+			solve(t+1);
+			f[i]=false;
+		}
+}
+
+int main()
+{
+	int i,j;
+	maxx=0;
+	memset(f,0,sizeof(f));
+	scanf("%d",&n);
+	for(i=0;i<n;i++)
+	{
+		scanf("%d%d",&a[i].x,&a[i].y);
+		a[i].x/=10;
+		a[i].n=i;
+	}
+	memset(ff,0xff,sizeof(ff));
+
+	if(n<=23&&n>=6)
+	{
+		for(i=0;i<n;i++)
+		{
+			b[i].x=a[i].x;
+			b[i].y=a[i].y;
+			b[i].n=i;
+			f[a[i].n]=true;
+		}
+		memset(f,0,sizeof(f));
+		solve(0);
+	}
+	else if(n>23)
+	{
+		sort(a,a+n,com1);
+		for(i=0;i<13;i++)
+		{
+			b[i].x=a[i].x;
+			b[i].y=a[i].y;
+			b[i].n=i;
+			f[a[i].n]=true;
+		}
+		sort(a,a+n,com2);
+		for(j=0;j<23;j++)
+		{
+			if(f[a[i].n])
+				continue;
+			b[i].x=a[i].x;
+			b[i].y=a[i].y;
+			b[i].n=i;
+			i++;
+			if(n==23)
+				break;
+		}
+		n=23;
+		memset(f,0,sizeof(f));
+		solve(0);
+	}
+	printf("%d\n",maxx);
+//	getchar();
+	//getchar();
+	return 0;
+}

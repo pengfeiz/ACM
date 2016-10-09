@@ -1,0 +1,63 @@
+#include <iostream>
+#include <math.h>
+#include <algorithm>  
+#include <stdlib.h>
+using namespace std;
+#define MAX 1000
+struct gao
+{
+	double x;
+	double y;
+}a[MAX];
+bool com(gao a,gao b)
+{
+	if(a.x<b.x)
+		return true;
+	if(a.x==b.x&&a.y<b.y)
+		return true;
+	return false;
+}
+bool judge(gao a,gao b)
+{
+	if(int(a.x)!=a.x)
+		return true;
+	if(int(a.y)!=a.y)
+		return true;
+	if(int(b.x)!=b.x)
+		return true;
+	if(int(b.y)!=b.y)
+		return true;
+	return false;
+}
+int main()
+{
+	int n,t,i,j;
+	gao he,ho,p,q;
+	double x,y;
+	while(cin>>n&&n)
+	{
+		for(i=t=0;i<n;i++)
+			scanf("%lf%lf",&a[i].x,&a[i].y);
+		sort(a,a+n,com);
+		for(i=0;i<n-1;i++)
+			for(j=i+1;j<n;j++)
+			{
+				x=a[i].x-a[j].x;
+				y=a[i].y-a[j].y;
+				p.x=a[i].x+y;
+				p.y=a[i].y-x;
+				q.x=a[i].x-y;
+				q.y=a[i].y+x;
+				he.x=(p.x+a[j].x)/2;
+				he.y=(p.y+a[j].y)/2;
+				ho.x=(q.x+a[j].x)/2;
+				ho.y=(q.y+a[j].y)/2;
+				if(judge(he,ho))
+					continue;
+				if(binary_search(a,a+n,he,com)&&binary_search(a,a+n,ho,com))
+						t++;
+			}
+		cout<<t/2<<endl;
+	}
+	return 0;
+}

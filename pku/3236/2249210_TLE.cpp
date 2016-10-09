@@ -1,0 +1,3 @@
+#include<cstdio> 
+#include<algorithm>
+bool graph[1200][1200];int n;void init(){int i,m,x,y;scanf("%d %d\n",&n,&m);for(i=1;i<=m;i++){scanf("%d %d\n",&x,&y);graph[x][y]=graph[y][x]=true;}}void starmain(){int i,j,k,p;for(i=1;i<=n;i++)for(j=1;j<=n;j++)if((!graph[i][j])&&(i!=j))for(k=1;k<=n;k++)if((graph[i][k])&&(graph[j][k]))for(p=1;p<=n;p++)if((!graph[p][i])&&(!graph[p][k])&&(graph[p][j])){printf("No\n");exit(0);}printf("Yes\n");}int main(){init();starmain();return(0);}
